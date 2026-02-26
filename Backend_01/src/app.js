@@ -1,71 +1,58 @@
-// app.js is used to create server 
+const express=require("express")
+const noteModel=require("./models/note.model")
 
-const express=require("express");
-
-const app=express()
-app.use(express.json())   /* By default express cannot read data that come directly through request so it require middleware express.json() to read data that come in body */
-
-const notes=[]
-/* title, description we are rquired from user*/
-
-/* api method POST , api name /notes */
+const app=express();
+app.use(express.json())
 
 
-/* POST /notes */
-app.post('/notes',(req,res)=>{
-    /* console.log(req.body);   we are basically getting object in he body  */
-    notes.push(req.body)
-
+/* MongoDB operation */
+ 
+app.post("/notes",async (req,res)=>{
+    const data = req.body
+    await noteModel.create({
+        title:data.title,
+        description:data.description
+    })
     res.status(201).json({
-        message:"note created successfully"
+        message:"note created "
     })
 })
 
-/* GET /notes */
-app.get('/notes',(req,res)=>{
-    
+app.get("/notes",async (req,res)=>{
+    const notes=await noteModel.find()   /* give data in the format of array of objects */
+    // const notes=await noteModel.findOne({   /* fetches data as per the defined condition and return object*/
+    //     title:"test_title_01"                 /* if not present in db then return null */
+    // })
     res.status(200).json({
         message:"notes fetched successfully",
         notes:notes
     })
 })
+/* find -> [{},{}] or []
+   findOne-> {} or null
+*/
 
-/* DELETE /notes/:index */
-/* notes is the static part and index is the dynamic part in the routes 
-   and in routes dynamic part is known or considered as params */
-app.delete('/notes/:index',(req,res)=>{
-    const index=req.params.index
-    delete notes[index]
+app.delete("/notes/:id",async (req,res)=>{
+    const id=req.params.id
+    await noteModel.findByIdAndDelete({
+        _id:id
+    })
     res.status(200).json({
         message:"note deleted successfully"
     })
 })
 
-app.patch('/notes/:index',(req,res)=>{
-    const index=req.params.index
-    const description=req.body.description
-    notes[index].description=description
+app.patch("/notes/:id",async (req,res)=>{
+    const id=req.params.id
+    const description = req.body.description
+    await noteModel.findOneAndUpdate({
+        _id:id
+    },{
+        description:description
+    })
     res.status(200).json({
-        message:"notes description updated successfully"
+        message:"note updated successfully"
     })
 })
-
-/*
-note={
-    title:"My first note",
-    description:"this is mu first note"
-}
-
-const notes=[
-    {
-        title:"My first note",
-        description:"this is mu first note"
-    },
-    {
-        title:"My second note",
-        description:"this is mu second note"
-    }
-]
-*/
 
 module.exports=app
