@@ -1,0 +1,19 @@
+# MongoDB Database 
+
+Database Operation
+CRUD :
+
+C - > Create
+R - > Read
+U - > Update
+D - > Delete
+
+Databbasse connection code is writtenin different folder db and in file db which is called in server.js
+
+To store data in database we need to define or tell about the data basically schema which is defiined in models folder
+
+model is created to decrease repeated code and make it easy to perform crud Operation
+C - > Create - POST
+R - > Read - GET
+U - > Update - PATCH
+D - > Delete - DELETE
