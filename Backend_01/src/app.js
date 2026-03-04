@@ -3,8 +3,10 @@ const noteModel=require("./models/note.model")
 const multer=require('multer')        /* to read file type data we use mmulter middleware  */
 const uploadFile=require("./services/storage.service")
 const postModel=require("./models/post.model")
+const cors=require("cors")
 
 const app=express();
+app.use(cors())
 app.use(express.json())   /* used for raw data  */
 
 const upload=multer({storage:multer.memoryStorage()})
