@@ -1,0 +1,23 @@
+Validation 
+    It checks whether data is in correct format or not .
+
+
+
+Verification
+    It checks whether data is correct or not .
+
+
+Authentication
+    to identify request is coming from which user .
+
+
+Autherization
+    to identify whether user is autherized or have permission to request from resourses 
+
+
+Authentication system types 
+1. Session based 
+
+
+2. Token based- we will be moving formard with this for now 
+    
